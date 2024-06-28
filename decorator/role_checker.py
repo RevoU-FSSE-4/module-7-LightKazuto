@@ -5,13 +5,16 @@ from flask_login import current_user
 def role_required(role):
     def decorator(func):
         @wraps(func)
-        def wrapper(*args, **kwargs):
-            if current_user.is_authenticated and current_user.role == role:
-                return func(*args, **kwargs)
-            else:
-                return {"message": "Unauthorized"}, 403
-            # Case 2 : Admin has more power than User
+        def decorated_view(*args, **kwargs):
+            if not current_user.is_authenticated:
+                return {"message": "Login required"}, 401
 
-        return wrapper
+            if current_user.role != role:
+                return {"message": "Unauthorized, insufficient role"}, 403
+
+            # Lanjutkan ke fungsi yang asli
+            return func(*args, **kwargs)
+
+        return decorated_view
 
     return decorator

@@ -60,7 +60,7 @@ def login_userData():
 
 
 @user_routes.route("/user/<id>", methods=["DELETE"])
-
+@role_required("admin")
 def user_delete(id):
     Session = sessionmaker(connection)
     session = Session()
@@ -85,6 +85,7 @@ def user_delete(id):
 
 
 @user_routes.route("/logout", methods=["GET"])
+@login_required
 def user_logout():
     logout_user()
     return {"message": "Success logout"}
