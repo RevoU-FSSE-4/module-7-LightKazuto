@@ -3,12 +3,13 @@ from flask import Blueprint, request
 from connectors.mysql_connector import connection
 from sqlalchemy.orm import sessionmaker
 from model.user import User
+from sqlalchemy.exc import SQLAlchemyError
 
-from flask_login import login_user, current_user, login_required, logout_user
-from flask_jwt_extended import create_access_token
+from flask_login import login_user, login_required, logout_user, current_user
+# from flask_jwt_extended import create_access_token
 from sqlalchemy.orm.exc import UnmappedInstanceError
-
 from decorator.role_checker import role_required
+from flask import jsonify, abort
 
 # from flask_jwt_extended import jwt_required
 
@@ -62,30 +63,24 @@ def login_userData():
 @user_routes.route("/user/<id>", methods=["DELETE"])
 @role_required("admin")
 def user_delete(id):
-    Session = sessionmaker(connection)
-    session = Session()
-    session.begin()
     try:
-        user = session.query(User).filter(User.id == id).first()
-        if user is None:
-            return {"message": "User not found"}, 404
-        session.delete(user)
-        session.commit()
-        return {"message": "Success delete user data"}, 200
-    except UnmappedInstanceError as e:
-        session.rollback()
-        print(e)
-        return {"message": "Failed to delete user"}, 500
-    except Exception as e:
-        session.rollback()
-        print(e)
-        return {"message": "Failed to delete user"}, 500
-    finally:
-        session.close()
+        Session = sessionmaker(connection)
+        with Session() as s:
+            user = s.query(User).filter(User.id == id).first()
+            if not user:
+                abort(404, description="User not found")
+
+            s.delete(user)
+            s.commit()
+
+            return jsonify({"message": "Success delete user data"}), 200
+
+    except SQLAlchemyError as e:
+        # Log the exception somewhere
+        return jsonify({"message": "Fail to delete user data", "error": str(e)}), 500
 
 
 @user_routes.route("/logout", methods=["GET"])
-@login_required
 def user_logout():
     logout_user()
     return {"message": "Success logout"}
