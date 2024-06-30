@@ -6,15 +6,14 @@ from model.user import User
 from sqlalchemy.exc import SQLAlchemyError
 
 from flask_login import login_user, login_required, logout_user, current_user
+
 # from flask_jwt_extended import create_access_token
-from sqlalchemy.orm.exc import UnmappedInstanceError
 from decorator.role_checker import role_required
 from flask import jsonify, abort
 
-# from flask_jwt_extended import jwt_required
-
 
 user_routes = Blueprint("user_routes", __name__)
+
 
 @user_routes.route("/register", methods=["POST"])
 def register_userData():
@@ -61,7 +60,7 @@ def login_userData():
 
 
 @user_routes.route("/user/<id>", methods=["DELETE"])
-@role_required("admin")
+@login_required
 def user_delete(id):
     try:
         Session = sessionmaker(connection)
@@ -70,14 +69,18 @@ def user_delete(id):
             if not user:
                 abort(404, description="User not found")
 
+            print(f"Deleting user: {user}")
+
             s.delete(user)
             s.commit()
+
+            print("User deleted successfully")
 
             return jsonify({"message": "Success delete user data"}), 200
 
     except SQLAlchemyError as e:
-        # Log the exception somewhere
-        return jsonify({"message": "Fail to delete user data", "error": str(e)}), 500
+        print(f"Failed to delete user: {str(e)}")
+        return jsonify({"message": "Fail to delete user data"}), 500
 
 
 @user_routes.route("/logout", methods=["GET"])

@@ -13,7 +13,7 @@ class User(Base, UserMixin):
     username = mapped_column(String(50), nullable=True)
     password = mapped_column(String(255), nullable=True)
     email = mapped_column(String(100), nullable=True)
-    created_at = mapped_column(DateTime(timezone=True), server_default=func.now())
+    created_at = mapped_column(DateTime(timezone=True),server_default=func.now())
     role = mapped_column(String(50))
 
     def set_password(self, password):
@@ -26,5 +26,3 @@ class User(Base, UserMixin):
 
     reviews = relationship("Review", cascade="all,delete-orphan")
 
-    def __repr__(self):
-        return f'<Product {self.username}>'

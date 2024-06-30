@@ -14,5 +14,3 @@ class Review(Base):
     review_content = mapped_column(Text)
     created_at = mapped_column(DateTime(timezone=True), server_default=func.now())
 
-    def __repr__(self):
-        return f"<Review {self.id}>"
