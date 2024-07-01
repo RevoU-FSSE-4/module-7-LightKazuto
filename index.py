@@ -4,7 +4,6 @@ from connectors.mysql_connector import connection
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import select
 from model.user import User
-from model.review import Review
 from controllers.users import user_routes
 from controllers.reviews import review_routes
 import os
