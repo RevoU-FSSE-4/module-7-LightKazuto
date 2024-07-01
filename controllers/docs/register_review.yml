@@ -1,0 +1,24 @@
+tags:
+  - review
+parameters:
+  - name: user_id
+    in: formData
+    type: string
+    required: true
+  - name: email
+    in: formData
+    type: string
+    required: true
+  - name: rating
+    in: formData
+    type: integer
+    required: true
+  - name: role
+    in: formData
+    type: string
+    required: true
+responses:
+  200:
+    description: Success to Create New User
+  500:
+    description: Fail to Register New User

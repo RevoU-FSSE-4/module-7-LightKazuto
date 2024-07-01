@@ -1,0 +1,10 @@
+    tags:
+      - users
+    responses:
+      200:
+        description: Success logout
+        schema:
+          type: object
+          properties:
+            message:
+              type: string

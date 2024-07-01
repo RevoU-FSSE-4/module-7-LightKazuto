@@ -1,0 +1,33 @@
+tags:
+  - users
+parameters:
+  - name: query
+    in: query
+    type: string
+    description: Search keyword to filter users by username (optional).
+responses:
+  200:
+    description: A list of users
+    schema:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              email:
+                type: string
+              username:
+                type: string
+              role:
+                type: string
+  500:
+    description: Unexpected error
+    schema:
+      type: object
+      properties:
+        message:
+          type: string

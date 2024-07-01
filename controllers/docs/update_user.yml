@@ -1,0 +1,31 @@
+tags:
+  - users
+parameters:
+  - name: id
+    in: path
+    type: integer
+    required: true
+  - name: username
+    in: formData
+    type: string
+  - name: email
+    in: formData
+    type: string
+  - name: role
+    in: formData
+    type: string
+responses:
+  200:
+    description: Success update user data
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+  500:
+    description: Fail to update user data
+    schema:
+      type: object
+      properties:
+        message:
+          type: string

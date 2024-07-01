@@ -1,0 +1,28 @@
+tags:
+  - users
+parameters:
+  - name: email
+    in: formData
+    type: string
+    required: true
+  - name: password
+    in: formData
+    type: string
+    required: true
+responses:
+  200:
+    description: Success to Login user
+    schema:
+      type: object
+      properties:
+        session_id:
+          type: string
+        message:
+          type: string
+  403:
+    description: Invalid email or password
+    schema:
+      type: object
+      properties:
+        message:
+          type: string

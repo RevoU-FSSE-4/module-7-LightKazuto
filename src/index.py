@@ -53,6 +53,5 @@ def get_dataTerminal():
             print(f"ID: {row.id}, Name: {row.username}, Role: {row.role}")
     return "Success print data on terminal"
 
-
 if __name__ == "__main__":
     app.run(debug=True)

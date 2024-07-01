@@ -1,0 +1,33 @@
+tags:
+  - review
+parameters:
+  - name: query
+    in: query
+    type: string
+    description: Search keyword to filter users by review_query (optional).
+responses:
+  200:
+    description: A list of Review
+    schema:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              email:
+                type: string
+              rating:
+                type: integer
+              review_content:
+                type: string
+  500:
+    description: Unexpected error
+    schema:
+      type: object
+      properties:
+        message:
+          type: string

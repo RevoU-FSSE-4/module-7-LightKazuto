@@ -1,0 +1,26 @@
+info:
+  title: Register New User
+tags:
+  - users
+parameters:
+  - name: username
+    in: formData
+    type: string
+    required: true
+  - name: email
+    in: formData
+    type: string
+    required: true
+  - name: password
+    in: formData
+    type: string
+    required: true
+  - name: role
+    in: formData
+    type: string
+    required: true
+responses:
+  200:
+    description: Success to Create New User
+  400:
+    description: Fail to Register New User

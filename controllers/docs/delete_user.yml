@@ -1,0 +1,22 @@
+tags:
+  - users
+parameters:
+  - name: id
+    in: path
+    type: integer
+    required: true
+responses:
+  200:
+    description: Success delete user data
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+  404:
+    description: User not found
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
